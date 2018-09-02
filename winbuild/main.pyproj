@@ -14,20 +14,17 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
     <Environment>PATH=$(BuildSetDir)\bin;%PATH%</Environment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <SearchPath>..\..\cuemol2\winbuild\Debug_x64\</SearchPath>
     <CommandLineArguments>..\..\cuemol2\winbuild\Debug_x64\sysconfig.xml</CommandLineArguments>
     <InterpreterPath>..\..\Python-3.7.0\python_d.exe</InterpreterPath>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>true</DebugSymbols>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <SearchPath>..\..\cuemol2\winbuild\Debug_x64\</SearchPath>
-    <CommandLineArguments>..\..\cuemol2\winbuild\Release_x64\sysconfig.xml</CommandLineArguments>
-    <InterpreterPath>..\..\Python-3.7.0\python.exe</InterpreterPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\python\startup.py" />

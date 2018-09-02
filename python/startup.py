@@ -1,32 +1,38 @@
 import sys
 
 from PyQt5.QtWidgets import QApplication
-import cuemol_internal as cuemol
+import cuemol_internal as ci
 from main import MainWindow, event
 from qmqtgui import QtMolWidget
 
 from PyQt5.QtCore import QCoreApplication, Qt
 #QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
 
-confpath = ""
+def launchCueMol(confpath):
+    ci.initCueMol(confpath)
+    evm = event.getEventManager()
 
-if len(sys.argv)>=2:
-    confpath = sys.argv[1]
+    logMgr = ci.getService("MsgLog")
+    accumMsg = logMgr.getAccumMsg()
+    logMgr.removeAccumMsg()
 
-cuemol.initCueMol(confpath)
-evm = event.getEventManager()
+    # evm = event.getEventManager()
 
-logMgr = cuemol.getService("MsgLog")
-accumMsg = logMgr.getAccumMsg()
-logMgr.removeAccumMsg()
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
 
-# evm = event.getEventManager()
+    QtMolWidget.setupTextRender()
+    QtMolWidget.setupEventTimer()
 
-app = QApplication(sys.argv)
-main_window = MainWindow()
+    #main_window.show()
+    sys.exit(app.exec_())
+    
+if __name__ == '__main__':
 
-QtMolWidget.setupTextRender()
-QtMolWidget.setupEventTimer()
+    confpath = ""
 
-#main_window.show()
-sys.exit(app.exec_())
+    if len(sys.argv)>=2:
+        confpath = sys.argv[1]
+
+    launchCueMol(confpath)
+    
