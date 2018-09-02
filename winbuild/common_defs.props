@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BasePlatformToolset Condition="'$(BasePlatformToolset)' == '' and ('$(MSBuildToolsVersion)' == '15.0' or '$(VisualStudioVersion)' == '15.0')">v141_xp</BasePlatformToolset>
+    <BasePlatformToolset Condition="'$(BasePlatformToolset)' == '' and '$(VCTargetsPath14)' != ''">v140_xp</BasePlatformToolset>
+    <BasePlatformToolset Condition="'$(BasePlatformToolset)' == '' and '$(VCTargetsPath12)' != ''">v120_xp</BasePlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)' == ''">$(BasePlatformToolset)</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+
+  <PropertyGroup Label="UserMacros">
+
+    <BuildSetDir>$(SolutionDir)..\..\</BuildSetDir>
+
+    <SourceDir>$(SolutionDir)..\src\</SourceDir>
+
+    <!-- CueMol2 -->
+    <QMSourceDir>$(BuildSetDir)\cuemol2\src\</QMSourceDir>
+    <QMDeployDir>$(BuildSetDir)\cuemol2\winbuild\$(Configuration)_x64\</QMDeployDir>
+
+    <!-- Python -->
+    <PythonDir>$(BuildSetDir)\Python-3.7.0\</PythonDir>
+    <HavePython Condition="Exists('$(PythonDir)')">Yes</HavePython>
+    <HavePython Condition="!Exists('$(PythonDir)')">No</HavePython>
+
+    <!-- BOOST -->
+    <BoostVersion>1_64</BoostVersion>
+
+    <BoostLibArch Condition="'$(Platform)'=='x64'">lib64</BoostLibArch>
+    <BoostLibArch Condition="'$(Platform)'=='Win32'">lib32</BoostLibArch>
+    <BoostPTS Condition="$(BasePlatformToolset.StartsWith(`v141`))">14.1</BoostPTS>
+    <BoostPTS2 Condition="$(BasePlatformToolset.StartsWith(`v141`))">141</BoostPTS2>
+    <BoostPTS Condition="$(BasePlatformToolset.StartsWith(`v120`))">12.0</BoostPTS>
+    <BoostPTS2 Condition="$(BasePlatformToolset.StartsWith(`v120`))">120</BoostPTS2>
+    <BoostLibraryPath>$(BuildSetDir)\boost\boost_$(BoostVersion)_0\$(BoostLibArch)-msvc-$(BoostPTS)</BoostLibraryPath>
+    <BoostIncludePath>$(BuildSetDir)\boost\boost_$(BoostVersion)_0</BoostIncludePath>
+    <BoostVer Condition="'$(Configuration)'=='Release'">vc$(BoostPTS2)-mt-$(BoostVersion)</BoostVer>
+    <BoostVer Condition="'$(Configuration)'=='Debug'">vc$(BoostPTS2)-mt-gd-$(BoostVersion)</BoostVer>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <BuildMacro Include="SourceDir">
+      <Value>$(SourceDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+
+</Project>
