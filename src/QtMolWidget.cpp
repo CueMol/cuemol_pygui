@@ -206,9 +206,9 @@ void QtMolWidget::setupMouseEvent(QMouseEvent *event, qsys::InDevEvent &ev)
   if (btns & Qt::RightButton)
     modif |= qsys::InDevEvent::INDEV_RBTN;
 
-  LOG_DPRINTLN("setupME btns=%d", btns);
-  LOG_DPRINTLN("setupME mdfs=%d", mdfs);
-  LOG_DPRINTLN("setupME modif=%d", modif);
+  // LOG_DPRINTLN("setupME btns=%d", btns);
+  // LOG_DPRINTLN("setupME mdfs=%d", mdfs);
+  // LOG_DPRINTLN("setupME modif=%d", modif);
   // ev.setSource(this);
   ev.setModifier(modif);
 
