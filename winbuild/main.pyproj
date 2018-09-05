@@ -14,9 +14,9 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
     <Environment>PATH=$(BuildSetDir)\bin;%PATH%</Environment>
-    <SearchPath>..\..\cuemol2\winbuild\Debug_x64\</SearchPath>
-    <CommandLineArguments>..\..\cuemol2\winbuild\Debug_x64\sysconfig.xml</CommandLineArguments>
-    <InterpreterPath>..\..\Python-3.7.0\python_d.exe</InterpreterPath>
+    <SearchPath>..\..\cuemol2\winbuild\Release_x64\;..\..\cuemol2\src\pybr\scripts</SearchPath>
+    <CommandLineArguments>..\..\cuemol2\winbuild\Release_x64\sysconfig.xml</CommandLineArguments>
+    <InterpreterPath>..\..\Python-3.7.0\python.exe</InterpreterPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

@@ -1,15 +1,15 @@
-import cuemol_internal as cuemol
+import cuemol as cm
 import sys
 
 class EventManager:
     def __init__(self):
-        self._mgr = cuemol.getService("ScrEventManager")
+        self._mgr = cm.getService("ScrEventManager")
         self._mgr.addListener(self._listener)
         self._slot = {}
         print("********** EventManager __init__!!")
 
     def _listener(self, aSlotID, aCatStr, aTgtTypeID, aEvtTypeID, aSrcID, aInfoStr):
-        print("Event listener called!!")
+        #print("Event listener called!!")
         #         print("  slot ID="+str(aSlotID))
         #         print("  cat str="+str(aCatStr))
         #         print("  target ID="+str(aTgtTypeID))

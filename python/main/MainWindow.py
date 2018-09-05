@@ -13,7 +13,8 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 
-import cuemol_internal as cuemol
+#import cuemol_internal as cuemol
+import cuemol as cm
 import main
 
 from qmqtgui import QtMolWidget
@@ -87,8 +88,8 @@ class MainWindow(QMainWindow):
 #     print("  src ID="+str(aSrcID))
         #print("LogEvent info : "+aInfoStr)
         info = json.loads(str(aInfoStr))
-        print("info : "+str(info))
-        print("info.content : "+str(info["content"]))
+#        print("info : "+str(info))
+#        print("info.content : "+str(info["content"]))
         self.appendLog(info["content"])
 #        if info["newline"]:
 #            self.appendLog("\n")
@@ -183,7 +184,7 @@ class MainWindow(QMainWindow):
         
 
     def setupScene(self):
-        scMgr = cuemol.getService("SceneManager")
+        scMgr = cm.sceMgr()
 
         sc = scMgr.createScene()
         sc.setName("Untitled")
@@ -201,7 +202,7 @@ class MainWindow(QMainWindow):
         print("setupScene new view ID="+str(self._vwid))
 
     def makeSel(self, selstr, uid):
-        sel = cuemol.createObj("SelCommand");
+        sel = cm.createObj("SelCommand");
         if uid :
             if not sel.compile(selstr, uid):
                 return null;
@@ -214,12 +215,12 @@ class MainWindow(QMainWindow):
 
 
     def loadQSCFile(self, fname):
-        scMgr = cuemol.getService("SceneManager")
+        scMgr = cm.sceMgr()
         scene = scMgr.getScene(self._scid);
 
         scene.clearAllData()
         
-        strMgr = cuemol.getService("StreamManager")
+        strMgr = cm.strMgr()
         reader = strMgr.createHandler("qsc_xml", 3)
         reader.setPath(fname)
         
@@ -234,10 +235,10 @@ class MainWindow(QMainWindow):
     def loadPDBFile(self, fname):
         #n = int(self.inputLine.text())
 
-        scMgr = cuemol.getService("SceneManager")
+        scMgr = cm.sceMgr()
         scene = scMgr.getScene(self._scid);
 
-        strMgr = cuemol.getService("StreamManager")
+        strMgr = cm.strMgr()
         reader = strMgr.createHandler("pdb", 0);
         reader.setPath(fname);
         

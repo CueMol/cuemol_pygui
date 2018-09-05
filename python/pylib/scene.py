@@ -1,78 +1,62 @@
 import sys, traceback, re, os
 
-import cuemol_internal as cuemol
+import cuemol_internal as ci
+import cuemol as cm
+import util
 
-from . import util
+def bg_color(colstr, aScene=None):
+    scene = cm.scene(aScene)
 
-def bg_color(colstr, scene=None):
-    scMgr = cuemol.getService("SceneManager")
-    if scene is None:
-        scene = scMgr.getActiveScene()
-
-    col = util.makecol(colstr)
+    col = cm.col(colstr)
     if col is None:
         # TO DO: report error
         return
 
-    ## EDIT TXN START ##
-    scene.startUndoTxn("Change bg color")
-    try:
+    with util.UndoTxn("Change background color", scene):
         scene.bgcolor = col
-    except:
-        print("bg_color error")
-        msg = traceback.format_exc()
-        print(msg)
-        scene.rollbackUndoTxn()
-        return
-    else:
-        scene.commitUndoTxn()
-        ## EDIT TXN END ##
 
-def undo(scene=None):
-    scMgr = cuemol.getService("SceneManager")
-    if scene is None:
-        scene = scMgr.getActiveScene()
+
+def undo(aScene=None):
+    scene = cm.scene(aScene)
     scene.undo(0)
     
-def redo(scene=None):
-    scMgr = cuemol.getService("SceneManager")
-    if scene is None:
-        scene = scMgr.getActiveScene()
+def redo(aScene=None):
+    scene = cm.scene(aScene)
     scene.redo(0)
 
-def current(rend_name=None):
-    scMgr = cuemol.getService("SceneManager")
-    scene = scMgr.getActiveScene()
+def current(rend_name=None, aScene=None):
+    scMgr = cm.svc("SceneManager")
+    scene = cm.scene(aScene)
 
     curr_rendid = scene.activeRendID
 
     if rend_name is None:
         # print current renderer
         if curr_rendid==0:
-            cuemol.printlog("No current renderer")
+            cm.println("No current renderer")
             return
 
         rend = scMgr.getRenderer(curr_rendid)
         if rend is None:
             msg = "Invalid current renderer (ID="+str(curr_rendid)+")"
-            cuemol.printlog(msg)
+            cm.println(msg)
             return
 
         obj = rend.getClientObj()
-        cuemol.printlog("Current renderer:")
-        cuemol.printlog("  id="+str(curr_rendid))
-        cuemol.printlog("  name="+rend.name+" ("+rend.type_name+")")
-        cuemol.printlog("  Object="+obj.name+" ("+cuemol.getClassName(obj)+")")
+        cm.println("Current renderer:")
+        cm.println("  id="+str(curr_rendid))
+        cm.println("  name="+rend.name+" ("+rend.type_name+")")
+        cm.println("  Object="+obj.name+" ("+ci.getClassName(obj)+")")
         return
     else:
         # set current renderer
         rend = scene.getRendByName(rend_name)
         if rend is None:
-            cuemol.printlog("Error, renderer name="+rend_name+" is not found.")
+            cm.println("Error, renderer name="+rend_name+" is not found.")
             return;
 
         scene.activeRendID = rend.uid
-        cuemol.printlog("Current renderer is changed to "+rend_name+" ("+rend.type_name+")")
+        cm.println("Current renderer is changed to "+rend_name+" ("+rend.type_name+")")
 
     return
 

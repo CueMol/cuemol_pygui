@@ -25,5 +25,7 @@ void QtTimerImpl::timerCallbackFunc()
 
   qlib::EventManager *pEM = qlib::EventManager::getInstance();
   pEM->performIdleTasks();
+
+  // LOG_DPRINTLN("XXXX current time=%llu", pEM->getCurrentTime());
 }
 

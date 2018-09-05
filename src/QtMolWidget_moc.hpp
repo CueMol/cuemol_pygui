@@ -36,6 +36,9 @@ private:
   
   qtgui::QtglView *m_pView;
   
+  Qt::MouseButtons m_prevBtns;
+  Qt::KeyboardModifiers m_prevMdfs;
+
 public:
   void bind(int scid, int vwid);
 

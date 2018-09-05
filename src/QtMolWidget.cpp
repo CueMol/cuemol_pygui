@@ -185,6 +185,16 @@ void QtMolWidget::setupMouseEvent(QMouseEvent *event, qsys::InDevEvent &ev)
   Qt::MouseButtons btns = event->buttons();
   Qt::KeyboardModifiers mdfs = event->modifiers();
 
+  if (event->type()==QEvent::MouseButtonPress) {
+    m_prevMdfs = mdfs;
+    m_prevBtns = btns;
+  }
+  else if (event->type()==QEvent::MouseButtonRelease &&
+           mdfs==0 && btns==0) {
+    mdfs = m_prevMdfs;
+    btns = m_prevBtns;
+  }
+
   if (mdfs & Qt::ControlModifier)
     modif |= qsys::InDevEvent::INDEV_CTRL;
   if (mdfs & Qt::ShiftModifier)
@@ -196,6 +206,9 @@ void QtMolWidget::setupMouseEvent(QMouseEvent *event, qsys::InDevEvent &ev)
   if (btns & Qt::RightButton)
     modif |= qsys::InDevEvent::INDEV_RBTN;
 
+  LOG_DPRINTLN("setupME btns=%d", btns);
+  LOG_DPRINTLN("setupME mdfs=%d", mdfs);
+  LOG_DPRINTLN("setupME modif=%d", modif);
   // ev.setSource(this);
   ev.setModifier(modif);
 
@@ -323,6 +336,7 @@ namespace {
   public:
     MyTimerImpl()
     {
+      start(1);
     }
     
     virtual ~MyTimerImpl()
@@ -331,6 +345,7 @@ namespace {
 
     virtual void start(qlib::time_value period)
     {
+      LOG_DPRINTLN("XXXX MyTimerImpl::start(%d) called!!", int(period));
       m_impl.start(period);
     }
 
@@ -345,7 +360,9 @@ namespace {
 //static
 void QtMolWidget::setupEventTimer()
 {
-  qlib::EventManager::getInstance()->initTimer(MB_NEW MyTimerImpl());
+  qlib::EventManager *pMgr = qlib::EventManager::getInstance();
+  LOG_DPRINTLN("XXXX QtMolWidget::setupEventTimer() called!!");
+  pMgr->initTimer(MB_NEW MyTimerImpl());
 }
 
 //////////////////////////////////////////////////

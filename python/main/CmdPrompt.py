@@ -3,7 +3,7 @@ import sys, traceback, re
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
 from PyQt5 import QtCore
-from pylib import fileio
+#from pylib import fileio
 from pylib import command
 # from pylib import cmdparser
 
